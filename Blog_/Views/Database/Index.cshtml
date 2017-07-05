@@ -1,0 +1,38 @@
+﻿@using Blog_.Models
+@using Blog_.Models.DataBase
+@using System.Drawing;
+@model IEnumerable<Topic>
+
+@if (ViewBag.Login == true)
+{
+    Layout = "~/Views/AuthenticatedPage.cshtml";
+    
+    if (ViewBag.Admin == true)
+    {
+        Layout = "~/Views/AdministoratorPage.cshtml";
+    }   
+}
+@if (ViewBag.Login == false)
+{
+    Layout = "/Views/MainPage.cshtml";
+}
+
+<div class="container">
+    <ul class="docs-nav" id="menu-left">
+        <li><strong>Темы</strong></li>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <li><a href="~/Database/ShowSelected/@item.Id" class=" ">@item.NameTopic</a></li>
+            }
+        }
+        
+        <li class="separator"></li>
+    </ul> 
+    
+    <div class="docs-content">
+        <h3> It's fashionable to be smart </h3>
+        <img src="~/Content/Image/start.jpg" />
+    </div>
+</div>

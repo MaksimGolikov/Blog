@@ -1,0 +1,85 @@
+﻿@using Blog_.Models
+@using Blog_.Models.DataBase
+@using System.Drawing;
+@model Tuple<Topic, IEnumerable<Message>>
+
+@if (ViewBag.Login == true)
+{
+    Layout = "~/Views/AuthenticatedPage.cshtml";
+    if (ViewBag.Admin == true) {
+        Layout = "~/Views/AdministoratorPage.cshtml";
+    }
+    
+}
+@if (ViewBag.Login == false)
+{
+    Layout = "/Views/MainPage.cshtml";
+}
+
+<div class="docs-content">
+    <h3 id="@Model.Item1.Id"> @Model.Item1.NameTopic </h3>
+    <p>
+        @Model.Item1.PablishingData<br />        
+    </p>
+    <p>@Model.Item1.ContextTopic</p>
+</div>
+
+<h3 id="Comments"> Comments </h3>
+@foreach (var item in Model.Item2)
+{
+    <div class="docs-content">
+        <h3 id="@item.Id"> @item.UserName </h3>        
+        <p>@item.MessageText</p>
+    </div>
+}
+
+@if (ViewBag.Login == true)
+{
+    <div class="docs-content" >        
+        <form action="~/Database/AddMessage" method="post" onclick=" validate(this.form)">
+            <p><b>Введите ваш отзыв:</b></p>
+            <p><textarea rows="5" cols="100" name="MessageText"></textarea></p>
+            <p><input type="submit" value="Отправить"></p>
+            <input type="hidden" value="@Model.Item1.Id" name="IdTopic" />            
+        </form>
+    </div>
+}
+
+
+<script>
+   
+
+    function validate(form) {
+        var elems = form.elements;
+
+        resetError(elems.login.parentNode);
+        if (!elems.login.value) {
+            showError(elems.login.parentNode, ' Enter login');
+        }
+
+        resetError(elems.password.parentNode);
+        if (!elems.password.value) {
+            showError(elems.password.parentNode, ' Enter password ');
+        }
+
+
+    }
+
+
+    function showError(container, errorMessage) {
+        container.className = 'error';
+        var msgElem = document.createElement('span');
+        msgElem.className = "error-message";
+        msgElem.innerHTML = errorMessage;
+        container.appendChild(msgElem);
+    }
+
+    function resetError(container) {
+        container.className = '';
+        if (container.lastChild.className == "error-message") {
+            container.removeChild(container.lastChild);
+        }
+    }
+
+
+</script>

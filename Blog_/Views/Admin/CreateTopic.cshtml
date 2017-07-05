@@ -1,0 +1,76 @@
+﻿@model Blog_.Models.DataBase.Topic
+
+@{
+    Layout = "~/Views/AdministoratorPage.cshtml";
+}
+
+
+<div id="main">
+    <div id="picture">
+        <h4> Administrator part</h4>
+    </div>
+    <div id="button">
+        <a href="~/Admin/Create">
+            <h4> Add topic</h4>
+        </a>
+        <a href="~/Admin/Edit">
+            <h4> Change topic </h4>
+        </a>
+        <a href="~/Admin/Delete">
+            <h4> Delete topic </h4>
+        </a>
+    </div>
+</div>
+
+
+
+<div class="docs-content">
+    <h2>New topic</h2>
+
+    <form method="post" action="~/Admin/Create"  onclick=" validate(this.form)">
+        <p><b>Name topic</b></p>
+        <p><input type="text" name="nameTopic" /></p>
+        <p><b>Text topic</b></p>
+        <p><textarea rows="10" cols="100" name="ContextTopic"></textarea></p>
+        <p><input type="submit" value="Create"></p>
+    </form>
+</div>
+
+
+
+
+<script>
+
+
+    function validate(form) {
+        var elems = form.elements;
+
+        resetError(elems.nameTopic.parentNode);
+        if (!elems.nameTopic.value) {
+            showError(elems.nameTopic.parentNode, ' Enter name');
+        }
+
+        resetError(elems.textTopic.parentNode);
+        if (!elems.textTopic.value) {
+            showError(elems.textTopic.parentNode, ' Enter text ');
+        }
+    }
+
+
+    function showError(container, errorMessage) {
+        container.className = 'error';
+        var msgElem = document.createElement('span');
+        msgElem.className = "error-message";
+        msgElem.innerHTML = errorMessage;
+        container.appendChild(msgElem);
+    }
+
+    function resetError(container) {
+        container.className = '';
+        if (container.lastChild.className == "error-message") {
+            container.removeChild(container.lastChild);
+        }
+    }
+
+
+</script>
